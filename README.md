@@ -13,6 +13,7 @@ IPP Server 是一个基于 Java 的实现，用于处理 Internet Printing Proto
 - **HttpIppServer.java**: 处理 IPP 请求的 HTTP 服务器实现。
 - **HttpIppServerTransport.java**: 抽象的 HTTP 服务器传输类，提供基本的 HTTP 服务器功能。
 - **IppPrinter.java**: 打印机类，管理打印机属性和处理打印作业。
+- **IIppPrinterEventHandler.java**: 定义了打印机事件处理接口，包括属性变化、打印作业创建、作业状态查询、排队作业数量查询和用户认证等功能。
 
 ## 运行项目
 1. 确保已安装 Java 开发环境。
