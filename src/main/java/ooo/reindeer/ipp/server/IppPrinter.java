@@ -12,7 +12,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.BiFunction;
 
 import static com.hp.jipp.model.Operation.*;
 import static com.hp.jipp.model.SystemConfiguredPrinters.printerInfo;
@@ -202,7 +201,6 @@ public class IppPrinter {
         putAttribute(documentFormatDetailsSupported.of("A4"));
         putAttribute(jobPagesPerSetSupported.of(true));
         putAttribute(jobImpressionsSupported.of(new IntRange(1, 100)));
-        putAttribute(jobPasswordEncryptionSupported.unsupported());
         putAttribute(multipleDocumentHandlingSupported.of("none"));
         putAttribute(orientationRequestedSupported.of(3));
 

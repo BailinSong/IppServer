@@ -35,7 +35,7 @@ public class Main {
 
             @Override
             public void onPrintAttributeSet(IppPrinter ippPrinter, Attribute<?> oldAttribute, Attribute<?> newAttribute) {
-                logger.debug("printer = {}, oldAttribute = {} -> {}",ippPrinter,oldAttribute, newAttribute);
+                logger.debug("printer = {}, Attribute[{}] = {} -> {}",ippPrinter,oldAttribute!=null?oldAttribute.getName():newAttribute!=null?newAttribute.getName():null,oldAttribute, newAttribute);
             }
 
             @Override
@@ -66,7 +66,7 @@ public class Main {
             @Override
             public String authenticator(IppPrinter ippPrinter, String token){
                 //带函数名的入参debug日志
-                logger.info("printer = {}, token = " ,ippPrinter, token);
+                logger.info("printer = {}, token = {}" ,ippPrinter, token);
                 String[] userInfoString = token.split(":");
 
                 if (userInfoString[0] != null) {
@@ -88,27 +88,111 @@ public class Main {
 
         printer.putAttribute(orientationRequestedSupported.of(Orientation.all.values()));
 
-        printer.putAttribute(colorSupported.of(true));
-        printer.putAttribute(copiesSupported.of(new IntRange(1,100)));
-        printer.putAttribute(coverBackSupported.of(CoverBack.media.getName(),CoverBack.mediaCol.getName(),CoverBack.coverType.getName()));
-        printer.putAttribute(coverFrontSupported.of(CoverBack.media.getName(),CoverBack.mediaCol.getName(),CoverBack.coverType.getName()));
-        printer.putAttribute(coverTypeSupported.of(allFieldsToString(CoverType.class)));
-        printer.putAttribute(destinationAccessesSupported.of(DestinationAccesses.accessUserName.getName(),DestinationAccesses.accessPassword.getName(),DestinationAccesses.accessOauthToken.getName(),DestinationAccesses.accessPin.getName()));
-        printer.putAttribute(finishingsSupported.of(Finishing.all.values()));
+        printer.putAttribute(printerKind.of(allFieldsToKeyword(PrinterKind.class)));
+        printer.putAttribute(printBaseSupported.of(allFieldsToString(PrintBase.class)));
+        printer.putAttribute(printColorModeSupported.of(allFieldsToString(PrintColorMode.class)));
+        printer.putAttribute(printContentOptimizeSupported.of(allFieldsToString(PrintContentOptimize.class)));
+        printer.putAttribute(printerServiceType.of(PrinterServiceType.print));
         printer.putAttribute(printQualitySupported.of(PrintQuality.all.values()));
         printer.putAttribute(printScalingSupported.of(allFieldsToString(PrintScaling.class)));
+        printer.putAttribute(printRenderingIntentSupported.of(allFieldsToString(PrintRenderingIntent.class)));
+        printer.putAttribute(printSupports.of(PrintSupports.standard));
+
+        printer.putAttribute(colorSupported.of(true));
+        printer.putAttribute(copiesSupported.of(new IntRange(1,Integer.MAX_VALUE)));
+        printer.putAttribute(coverBackSupported.of(allFieldsNamesToString(CoverBack.class)));
+        printer.putAttribute(coverFrontSupported.of(allFieldsNamesToString(CoverBack.class)));
+        printer.putAttribute(coverTypeSupported.of(allFieldsToString(CoverType.class)));
+        printer.putAttribute(destinationAccessesSupported.of(allFieldsNamesToString(DestinationAccesses.class)));
+        printer.putAttribute(finishingsSupported.of(Finishing.all.values()));
         printer.putAttribute(sidesSupported.of(allFieldsToString(Sides.class)));
         printer.putAttribute(mediaTypeSupported.of(allFieldsToKeyword(MediaType.class)));
         printer.putAttribute(mediaSupported.of(allFieldsToKeyword(Media.class)));
-        printer.putAttribute(multipleDocumentHandlingSupported.of(allFieldsToString(MultipleDocumentHandling.class)));
+
+
         printer.putAttribute(jobPagesPerSetSupported.of(true));
-        printer.putAttribute(jobImpressionsSupported.of(new IntRange(1, 100)));
+        printer.putAttribute(jobImpressionsSupported.of(new IntRange(1, Integer.MAX_VALUE)));
         printer.putAttribute(jobPasswordEncryptionSupported.unsupported());
         printer.putAttribute(accuracyUnitsSupported.of(allFieldsToString(AccuracyUnit.class)));
         printer.putAttribute(balingTypeSupported.of(allFieldsToKeyword(BalingType.class)));
         printer.putAttribute(balingWhenSupported.of(allFieldsToString(BalingWhen.class)));
         printer.putAttribute(bindingReferenceEdgeSupported.of(allFieldsToString(BindingReferenceEdge.class)));
-//        printer.putAttribute(bindingTypeSupported.of())
+        printer.putAttribute(bindingTypeSupported.of(allFieldsToString(BindingType.class)));
+        printer.putAttribute(coatingSidesSupported.of(allFieldsToString(CoatingSides.class)));
+        printer.putAttribute(coatingTypeSupported.of(allFieldsToKeyword(CoatingType.class)));
+        printer.putAttribute(compressionSupported.of(allFieldsToString(Compression.class)));
+        printer.putAttribute(coveringNameSupported.of(allFieldsToKeyword(CoveringName.class)));
+        printer.putAttribute(documentFormatDetailsSupported.of(allFieldsToString(DocumentDigitalSignature.class)));
+        printer.putAttribute(feedOrientationSupported.of(allFieldsToString(FeedOrientation.class)));
+        printer.putAttribute(finishingTemplateSupported.of(allFieldsToKeyword(FinishingTemplate.class)));
+        printer.putAttribute(feedOrientationSupported.of(allFieldsToString(FeedOrientation.class)));
+        printer.putAttribute(finishingsColSupported.of(allFieldsNamesToString(FinishingsCol.class)));
+        printer.putAttribute(foldingDirectionSupported.of(allFieldsToString(FoldingDirection.class)));
+        printer.putAttribute(foldingReferenceEdgeSupported.of(allFieldsToString(FoldingReferenceEdge.class)));
+        printer.putAttribute(impositionTemplateSupported.of(allFieldsToKeyword(ImpositionTemplate.class)));
+//        printer.putAttribute(ippFeaturesSupported.of(allFieldsToString(IppFeaturesSupported.class)));
+        printer.putAttribute(jobHoldUntilSupported.of(allFieldsToKeyword(JobHoldUntil.class)));
+        printer.putAttribute(jobImpressionsSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(jobMediaSheetsSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(jobPagesPerSetSupported.of(true));
+        printer.putAttribute(jobRetainUntilSupported.of(allFieldsToKeyword(JobRetainUntil.class)));
+        printer.putAttribute(jobSettableAttributesSupported.of(allFieldsToString(JobSettableAttributesSupported.class)));
+        printer.putAttribute(jobSheetsSupported.of(allFieldsToKeyword(JobSheet.class)));
+        printer.putAttribute(jobSheetsColSupported.of(allFieldsNamesToString(JobSheetsCol.class)));
+        printer.putAttribute(jpegFeaturesSupported.of(allFieldsToString(JpegFeaturesSupported.class)));
+        printer.putAttribute(labelModeSupported.of(allFieldsToString(LabelModeConfigured.class)));
+        printer.putAttribute(laminatingSidesSupported.of(allFieldsToString(LaminatingSides.class)));
+        printer.putAttribute(laminatingTypeSupported.of(allFieldsToKeyword(LaminatingType.class)));
+        printer.putAttribute(materialAmountUnitsSupported.of(allFieldsToString(MaterialAmountUnit.class)));
+        printer.putAttribute(materialPurposeSupported.of(allFieldsToString(MaterialPurpose.class)));
+        printer.putAttribute(materialRateUnitsSupported.of(allFieldsToString(MaterialRateUnit.class)));
+        printer.putAttribute(materialsColSupported.of(allFieldsNamesToString(MaterialsCol.class)));
+        printer.putAttribute(materialTypeSupported.of(allFieldsToString(MaterialType.class)));
+        printer.putAttribute(mediaBackCoatingSupported.of(allFieldsToKeyword(MediaBackCoating.class)));
+        printer.putAttribute(mediaColSupported.of(allFieldsNamesToString(MediaCol.class)));
+        printer.putAttribute(mediaColorSupported.of(allFieldsToKeyword(MediaColor.class)));
+        printer.putAttribute(mediaGrainSupported.of(allFieldsToKeyword(MediaGrain.class)));
+        printer.putAttribute(mediaOverprintSupported.of(allFieldsNamesToString(MediaOverprint.class)));
+        printer.putAttribute(mediaPrePrintedSupported.of(allFieldsToKeyword(MediaPrePrinted.class)));
+        printer.putAttribute(mediaRecycledSupported.of(allFieldsToKeyword(MediaRecycled.class)));
+        printer.putAttribute(mediaSourceSupported.of(allFieldsToKeyword(MediaSource.class)));
+        printer.putAttribute(mediaToothSupported.of(allFieldsToKeyword(MediaTooth.class)));
+        printer.putAttribute(mediaTrackingSupported.of(allFieldsToString(MediaTracking.class)));
+        printer.putAttribute(multipleDocumentHandlingSupported.of(allFieldsToString(MultipleDocumentHandling.class)));
+        printer.putAttribute(multipleObjectHandlingSupported.of(allFieldsToString(MultipleObjectHandling.class)));
+        printer.putAttribute(pageDeliverySupported.of(allFieldsToString(PageDelivery.class)));
+        printer.putAttribute(proofPrintSupported.of(allFieldsNamesToString(ProofPrint.class)));
+        printer.putAttribute(punchingReferenceEdgeSupported.of(allFieldsToString(PunchingReferenceEdge.class)));
+        printer.putAttribute(separatorSheetsSupported.of(allFieldsNamesToString(SeparatorSheets.class)));
+
+        printer.putAttribute(stitchingMethodSupported.of(allFieldsToString(StitchingMethod.class)));
+        printer.putAttribute(stitchingReferenceEdgeSupported.of(allFieldsToString(StitchingReferenceEdge.class)));
+        printer.putAttribute(stitchingAngleSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(stitchingLocationsSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(stitchingOffsetSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+
+        printer.putAttribute(trimmingReferenceEdgeSupported.of(allFieldsToString(TrimmingReferenceEdge.class)));
+        printer.putAttribute(trimmingTypeSupported.of(allFieldsToString(TrimmingType.class)));
+        printer.putAttribute(trimmingWhenSupported.of(allFieldsToString(TrimmingWhen.class)));
+        printer.putAttribute(xImagePositionSupported.of(allFieldsToString(XImagePosition.class)));
+        printer.putAttribute(yImagePositionSupported.of(allFieldsToString(YImagePosition.class)));
+        printer.putAttribute(xImageShiftSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(yImageShiftSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+
+        printer.putAttribute(numberUpSupported.of(new IntRange(1,6)));
+        printer.putAttribute(presentationDirectionNumberUpSupported.of(allFieldsToString(PresentationDirectionNumberUp.class)));
+        printer.putAttribute(printerResolutionSupported.of(
+                new Resolution(300,300,ResolutionUnit.dotsPerInch),
+                new Resolution(600,600,ResolutionUnit.dotsPerInch),
+                new Resolution(1200,1200,ResolutionUnit.dotsPerInch),
+                new Resolution(2400,2400,ResolutionUnit.dotsPerInch),
+                new Resolution(4800,4800,ResolutionUnit.dotsPerInch),
+                new Resolution(9600,9600,ResolutionUnit.dotsPerInch)));
+        printer.putAttribute(mediaLeftMarginSupported.of(10));
+        printer.putAttribute(mediaRightMarginSupported.of(10));
+        printer.putAttribute(mediaTopMarginSupported.of(10));
+        printer.putAttribute(mediaBottomMarginSupported.of(10));
+
 
 
         try {
@@ -141,6 +225,25 @@ public class Main {
                 .map(field -> {
                     try {
                         return (String) field.get(null);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> allFieldsNamesToString(Class<?> clazz) {
+        return Arrays.stream(clazz.getFields())
+                .filter(field -> {
+                    try {
+                        return (field.get(null) instanceof AttributeType) && java.lang.reflect.Modifier.isStatic(field.getModifiers())&& !field.getName().equals("Types");
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .map(field -> {
+                    try {
+                        return ((AttributeType<?>) field.get(null)).getName();
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
