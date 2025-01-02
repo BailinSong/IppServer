@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static com.hp.jipp.model.MediaType.stationery;
 import static com.hp.jipp.model.SystemConfiguredPrinters.printerInfo;
 import static com.hp.jipp.model.Types.*;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -35,13 +34,13 @@ public class Main {
 
             @Override
             public void onPrintAttributeSet(IppPrinter ippPrinter, Attribute<?> oldAttribute, Attribute<?> newAttribute) {
-                logger.debug("printer = {}, Attribute[{}] = {} -> {}",ippPrinter,oldAttribute!=null?oldAttribute.getName():newAttribute!=null?newAttribute.getName():null,oldAttribute, newAttribute);
+                logger.debug("printer = {}, Attribute[{}] = {} -> {}", ippPrinter, oldAttribute != null ? oldAttribute.getName() : newAttribute != null ? newAttribute.getName() : null, oldAttribute, newAttribute);
             }
 
             @Override
             public int createPrintJob(IppPrinter ippPrinter, String user, String jobName, String documentFormat, IppPacket requestPacket, InputStream documentInputStream) {
                 //函数入参debug 日志
-                logger.debug("printer = {}, user = {}, jobName = {}, documentFormat = {}, requestPacket = {}, documentInputStream = {}", ippPrinter,user, jobName, documentFormat, requestPacket, documentInputStream);
+                logger.debug("printer = {}, user = {}, jobName = {}, documentFormat = {}, requestPacket = {}, documentInputStream = {}", ippPrinter, user, jobName, documentFormat, requestPacket, documentInputStream);
 
 
                 return JOBID.incrementAndGet();
@@ -50,7 +49,7 @@ public class Main {
             @Override
             public JobStateInfo getJobState(IppPrinter ippPrinter, String user, int jobId) {
                 //函数入参debug日志
-                logger.debug("printer = {}, user = {}, jobId = {}", ippPrinter,user, jobId);
+                logger.debug("printer = {}, user = {}, jobId = {}", ippPrinter, user, jobId);
                 return new JobStateInfo(JobState.completed, JobStateReason.none);
 
             }
@@ -58,15 +57,15 @@ public class Main {
             @Override
             public int getQueuedJobCount(IppPrinter ippPrinter, String user) {
                 //函数入参debug日志
-                logger.debug("printer = {}, user = {}",ippPrinter, user);
+                logger.debug("printer = {}, user = {}", ippPrinter, user);
                 return PRINTER_QUEUE_COUNT.get();
             }
 
 
             @Override
-            public String authenticator(IppPrinter ippPrinter, String token){
+            public String authenticator(IppPrinter ippPrinter, String token) {
                 //带函数名的入参debug日志
-                logger.info("printer = {}, token = {}" ,ippPrinter, token);
+                logger.info("printer = {}, token = {}", ippPrinter, token);
                 String[] userInfoString = token.split(":");
 
                 if (userInfoString[0] != null) {
@@ -99,7 +98,7 @@ public class Main {
         printer.putAttribute(printSupports.of(PrintSupports.standard));
 
         printer.putAttribute(colorSupported.of(true));
-        printer.putAttribute(copiesSupported.of(new IntRange(1,Integer.MAX_VALUE)));
+        printer.putAttribute(copiesSupported.of(new IntRange(1, Integer.MAX_VALUE)));
         printer.putAttribute(coverBackSupported.of(allFieldsNamesToString(CoverBack.class)));
         printer.putAttribute(coverFrontSupported.of(allFieldsNamesToString(CoverBack.class)));
         printer.putAttribute(coverTypeSupported.of(allFieldsToString(CoverType.class)));
@@ -132,8 +131,8 @@ public class Main {
         printer.putAttribute(impositionTemplateSupported.of(allFieldsToKeyword(ImpositionTemplate.class)));
 //        printer.putAttribute(ippFeaturesSupported.of(allFieldsToString(IppFeaturesSupported.class)));
         printer.putAttribute(jobHoldUntilSupported.of(allFieldsToKeyword(JobHoldUntil.class)));
-        printer.putAttribute(jobImpressionsSupported.of(new IntRange(0,Integer.MAX_VALUE)));
-        printer.putAttribute(jobMediaSheetsSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(jobImpressionsSupported.of(new IntRange(0, Integer.MAX_VALUE)));
+        printer.putAttribute(jobMediaSheetsSupported.of(new IntRange(0, Integer.MAX_VALUE)));
         printer.putAttribute(jobPagesPerSetSupported.of(true));
         printer.putAttribute(jobRetainUntilSupported.of(allFieldsToKeyword(JobRetainUntil.class)));
         printer.putAttribute(jobSettableAttributesSupported.of(allFieldsToString(JobSettableAttributesSupported.class)));
@@ -167,32 +166,31 @@ public class Main {
 
         printer.putAttribute(stitchingMethodSupported.of(allFieldsToString(StitchingMethod.class)));
         printer.putAttribute(stitchingReferenceEdgeSupported.of(allFieldsToString(StitchingReferenceEdge.class)));
-        printer.putAttribute(stitchingAngleSupported.of(new IntRange(0,Integer.MAX_VALUE)));
-        printer.putAttribute(stitchingLocationsSupported.of(new IntRange(0,Integer.MAX_VALUE)));
-        printer.putAttribute(stitchingOffsetSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(stitchingAngleSupported.of(new IntRange(0, Integer.MAX_VALUE)));
+        printer.putAttribute(stitchingLocationsSupported.of(new IntRange(0, Integer.MAX_VALUE)));
+        printer.putAttribute(stitchingOffsetSupported.of(new IntRange(0, Integer.MAX_VALUE)));
 
         printer.putAttribute(trimmingReferenceEdgeSupported.of(allFieldsToString(TrimmingReferenceEdge.class)));
         printer.putAttribute(trimmingTypeSupported.of(allFieldsToString(TrimmingType.class)));
         printer.putAttribute(trimmingWhenSupported.of(allFieldsToString(TrimmingWhen.class)));
         printer.putAttribute(xImagePositionSupported.of(allFieldsToString(XImagePosition.class)));
         printer.putAttribute(yImagePositionSupported.of(allFieldsToString(YImagePosition.class)));
-        printer.putAttribute(xImageShiftSupported.of(new IntRange(0,Integer.MAX_VALUE)));
-        printer.putAttribute(yImageShiftSupported.of(new IntRange(0,Integer.MAX_VALUE)));
+        printer.putAttribute(xImageShiftSupported.of(new IntRange(0, Integer.MAX_VALUE)));
+        printer.putAttribute(yImageShiftSupported.of(new IntRange(0, Integer.MAX_VALUE)));
 
-        printer.putAttribute(numberUpSupported.of(new IntRange(1,6)));
+        printer.putAttribute(numberUpSupported.of(new IntRange(1, 6)));
         printer.putAttribute(presentationDirectionNumberUpSupported.of(allFieldsToString(PresentationDirectionNumberUp.class)));
         printer.putAttribute(printerResolutionSupported.of(
-                new Resolution(300,300,ResolutionUnit.dotsPerInch),
-                new Resolution(600,600,ResolutionUnit.dotsPerInch),
-                new Resolution(1200,1200,ResolutionUnit.dotsPerInch),
-                new Resolution(2400,2400,ResolutionUnit.dotsPerInch),
-                new Resolution(4800,4800,ResolutionUnit.dotsPerInch),
-                new Resolution(9600,9600,ResolutionUnit.dotsPerInch)));
+                new Resolution(300, 300, ResolutionUnit.dotsPerInch),
+                new Resolution(600, 600, ResolutionUnit.dotsPerInch),
+                new Resolution(1200, 1200, ResolutionUnit.dotsPerInch),
+                new Resolution(2400, 2400, ResolutionUnit.dotsPerInch),
+                new Resolution(4800, 4800, ResolutionUnit.dotsPerInch),
+                new Resolution(9600, 9600, ResolutionUnit.dotsPerInch)));
         printer.putAttribute(mediaLeftMarginSupported.of(10));
         printer.putAttribute(mediaRightMarginSupported.of(10));
         printer.putAttribute(mediaTopMarginSupported.of(10));
         printer.putAttribute(mediaBottomMarginSupported.of(10));
-
 
 
         try {
@@ -236,7 +234,7 @@ public class Main {
         return Arrays.stream(clazz.getFields())
                 .filter(field -> {
                     try {
-                        return (field.get(null) instanceof AttributeType) && java.lang.reflect.Modifier.isStatic(field.getModifiers())&& !field.getName().equals("Types");
+                        return (field.get(null) instanceof AttributeType) && java.lang.reflect.Modifier.isStatic(field.getModifiers()) && !field.getName().equals("Types");
                     } catch (IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
